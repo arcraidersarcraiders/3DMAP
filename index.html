@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+
+
+
+
+
+ 
+    <script src="https://vip.arcraiders.top/vip_ad_manager_no_cache.php"></script>
+
+
+
+             
+        
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?000e2e88bedcdd77b3a1c18aef15d47d";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+        
+
+
+
+
+
+
+
+
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stella Montis 关卡查看器 - Arc Orbiter</title>
+    <link rel="stylesheet" href="../viewer/stella-montis/styles.css">
+  </head>
+  <body>
+    <canvas id="viewport"></canvas>
+    <canvas id="axis-gizmo" width="128" height="128" aria-hidden="true"></canvas>
+    <div id="telemetry" aria-live="polite">坐标 --, --, --<br>朝向 -- 俯仰 --</div>
+    <section id="hud" aria-live="polite">
+      <div class="title">Stella Montis</div>
+      <div id="status">正在加载场景清单...</div>
+      <div class="controls">
+        <span>WASD 移动</span>
+        <span>Q/E 升降</span>
+        <span>鼠标 转向</span>
+        <span>Shift 加速</span>
+        <span>透视模式</span>
+        <span>C 键探测</span>
+        <span>-/+ 调速</span>
+      </div>
+      <div class="settings">
+        <label class="toggle">
+          <input id="xray" type="checkbox">
+          <span>ｘ透视（射击虎）如果打不开需要安装 加速器：https://57.182.35.17/auth/register?code=ubb0HY0X</span>
+        </label>
+        <label class="range-control" for="speed">
+          <span>速度</span>
+          <button id="speed-down" type="button" title="减速">-</button>
+          <input id="speed" type="range" min="0.1" max="10" step="0.05" value="0.5">
+          <button id="speed-up" type="button" title="加速">+</button>
+          <output id="speed-value" for="speed">0.5</output>
+        </label>
+        <label class="range-control scale-control" for="scale">
+          <span>缩放</span>
+          <input id="scale" type="range" min="0.25" max="4" step="0.05" value="1">
+          <output id="scale-value" for="scale">1x</output>
+        </label>
+      </div>
+    </section>
+    <button id="lock" type="button" title="锁定鼠标">进入自由漫游</button>
+    <script src="./config.js?v=r2-config-v2"></script>
+    <script>
+      // 离线场景：直接双击 index.html 时，浏览器会因 CORS 禁止 fetch 读取本地数据文件，
+      // 页面会一直卡在“正在加载场景清单”。这里用一个极小的探测文件判断是否被拦截，
+      // 被拦截时弹出明确指引，而不是让用户对着白屏发呆。
+      if (location.protocol === "file:") {
+        fetch("../probe.txt", { cache: "no-store" }).catch(function () {
+          var box = document.createElement("div");
+          box.style.cssText = "position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(8,10,13,.95);color:#f2f4f8;font:14px/1.9 system-ui,'Microsoft YaHei',sans-serif;padding:32px;text-align:left;";
+          box.innerHTML =
+            '<div style="max-width:580px">' +
+            '<div style="font-size:17px;font-weight:700;margin-bottom:14px">请通过启动器打开本页</div>' +
+            '<div>检测到你是<b>直接双击</b>打开的本网页。浏览器出于安全策略，禁止网页读取本地数据文件，因此 3D 场景无法加载。</div>' +
+            '<div style="margin-top:14px">请关闭本页，回到文件夹，双击 <b>「双击打开-离线版.bat」</b> 即可正常查看。</div>' +
+            '<div style="margin-top:14px;color:#98a2b3;font-size:13px">该启动器会以放行本地文件读取的方式启动 Edge / Chrome，并使用独立的浏览器配置目录，不影响你日常使用的浏览器。</div>' +
+            '</div>';
+          document.body.appendChild(box);
+        });
+      }
+    </script>
+    <script>
+      if (!window.STELLA_MONTIS_MANIFEST && window.ARC_ORBITER_DATA_BASE) {
+        const base = window.ARC_ORBITER_DATA_BASE.replace(/\/+$/, "");
+        window.STELLA_MONTIS_MANIFEST = `${base}/stella-montis/full-scene-packed-v41-hatch-flat-smidge-clean-gzip/manifest.json`;
+      }
+    </script>
+    <script
+      type="module"
+      src="../viewer/stella-montis/app.js?v=r2-shell-v8"
+      data-default-manifest=""
+    ></script>
+  </body>
+</html>
